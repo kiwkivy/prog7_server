@@ -5,8 +5,8 @@ package se.ifmo.programming.lab6.Commands;
  */
 
 public class Help extends Command{
-    public static String description = "вывести справку по доступным командам";
-    public static String syntax = "help";
+    public static transient String description = "вывести справку по доступным командам";
+    public static transient String syntax = "help";
     public CommandType commandType = CommandType.HELP;
 
     public Help() {
@@ -15,22 +15,23 @@ public class Help extends Command{
 
     @Override
     public String execute() {
-        System.out.println("Вывод справки:");
-        System.out.println("- " + Add.syntax + ": " + Add.description);
-        System.out.println("- " + Clear.syntax + ": " + Clear.description);
-        System.out.println("- " + CountByColor.syntax + ": " + CountByColor.description);
-        System.out.println("- " + ExecuteScript.syntax + ": " + ExecuteScript.description);
-        System.out.println("- " + FilterStartsWithName.syntax + ": " + FilterStartsWithName.description);
-        System.out.println("- " + Help.syntax + ": " + Help.description);
-        System.out.println("- " + Info.syntax + ": " + Info.description);
-        System.out.println("- " + InsertAt.syntax + ": " + InsertAt.description);
-        System.out.println("- " + PrintFieldDescendingCave.syntax + ": " + PrintFieldDescendingCave.description);
-        System.out.println("- " + RemoveById.syntax + ": " + RemoveById.description);
-        System.out.println("- " + RemoveLower.syntax + ": " + RemoveLower.description);
-        System.out.println("- " + Reorder.syntax + ": " + Reorder.description);
-        System.out.println("- " + Save.syntax + ": " + Save.description);
-        System.out.println("- " + Show.syntax + ": " + Show.description);
-        System.out.println("- " + Update.syntax + ": " + Update.description);
-        return null;
+        String result = "Вывод справки:";
+        result+=("- " + Add.syntax + ": " + Add.description + "\n");
+        result+=("- " + Clear.syntax + ": " + Clear.description + "\n");
+        result+=("- " + CountByColor.syntax + ": " + CountByColor.description + "\n");
+        result+=("- " + ExecuteScript.syntax + ": " + ExecuteScript.description + "\n");
+        result+=("- " + FilterStartsWithName.syntax + ": " + FilterStartsWithName.description + "\n");
+        result+=("- " + Help.syntax + ": " + Help.description + "\n");
+        result+=("- " + Info.syntax + ": " + Info.description + "\n");
+        result+=("- " + InsertAt.syntax + ": " + InsertAt.description + "\n");
+        result+=("- " + PrintFieldDescendingCave.syntax + ": " + PrintFieldDescendingCave.description + "\n");
+        result+=("- " + RemoveById.syntax + ": " + RemoveById.description + "\n");
+        result+=("- " + RemoveLower.syntax + ": " + RemoveLower.description + "\n");
+        result+=("- " + Reorder.syntax + ": " + Reorder.description + "\n");
+        result+=("- " + Save.syntax + ": " + Save.description + "\n");
+        result+=("- " + Show.syntax + ": " + Show.description + "\n");
+        result+=("- " + Update.syntax + ": " + Update.description);
+
+        return result;
     }
 }

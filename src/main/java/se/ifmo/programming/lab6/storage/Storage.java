@@ -32,7 +32,7 @@ public interface Storage<T extends Collection<E>, E>{
     /**
      * Релизация команды remove_lower;
      */
-    void removeLower(final E element);
+    void removeLower(int id);
 
     /**
      * Релизация команды clear.
@@ -47,15 +47,17 @@ public interface Storage<T extends Collection<E>, E>{
     /**
      * Релизация команды info.
      */
-    void info();
+    String info();
 
     /**
      * Релизация команды show.
      */
-    void show();
+    String show();
 
     /**
      * Релизация команды filter_starts_with_name.
      */
-    void filterStartsWithName(String name);
+    String filterStartsWithName(String name);
+
+    String getStringCollection();
 }

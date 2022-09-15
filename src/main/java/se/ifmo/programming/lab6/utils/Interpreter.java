@@ -1,6 +1,7 @@
 package se.ifmo.programming.lab6.utils;
 
 import se.ifmo.programming.lab6.Commands.*;
+import se.ifmo.programming.lab6.Server;
 import se.ifmo.programming.lab6.data.*;
 import se.ifmo.programming.lab6.storage.DragonVectorStorage;
 
@@ -34,7 +35,7 @@ public class Interpreter {
      * Метод, реализующий работу интерпретатора. Интерпретатор работает в двух режимах: консольном и скриптовом.
      */
 
-    public void start() {
+    public String start(String result) {
         FileWorker worker = new FileWorker();
         String data = "";
         Scanner scanner = null;
@@ -45,13 +46,10 @@ public class Interpreter {
             try {
                 scanner = new Scanner(file);
             }catch(FileNotFoundException e){
-                System.out.println("Ошибка доступа к файла.");
+                Server.sendMessage("Ошибка доступа к файлу");
             }
         }
         while (true) {
-            if (isConsoleMod) {
-                System.out.print("Введите команду: ");
-            }
             if (!scanner.hasNextLine() || ((data = scanner.nextLine()).equals(" "))){
                 System.exit(20);
             }
@@ -62,31 +60,31 @@ public class Interpreter {
                     switch (command) {
                         case "clear":
                             Command clear = new Clear(dragonVectorStorage);
-                            clear.execute();
+                            result+=clear.execute();
                             break;
                         case "help":
                             Command help = new Help();
-                            help.execute();
+                            result+=help.execute();
                             break;
                         case "info":
                             Command info = new Info(dragonVectorStorage);
-                            info.execute();
+                            result+=info.execute();
                             break;
                         case "reorder":
                             Command reorder = new Reorder(dragonVectorStorage);
-                            reorder.execute();
+                            result+=reorder.execute();
                             break;
                         case "save":
                             Command save = new Save(dragonVectorStorage, worker, dragonVectorStorage.getFile());
-                            save.execute();
+                            result+=save.execute();
                             break;
                         case "show":
                             Command show = new Show(dragonVectorStorage);
-                            show.execute();
+                            result+=show.execute();
                             break;
                         case "print_field_descending_cave":
-                            Command printFieldDescendingCave = new PrintFieldDescendingCave(dragonVectorStorage);
-                            printFieldDescendingCave.execute();
+                            //Command printFieldDescendingCave = new PrintFieldDescendingCave(dragonVectorStorage);
+                            //result+=printFieldDescendingCave.execute();
                             break;
                         case "add":
                             if (dragonVectorStorage.getIdCounter() <= 99) {
@@ -96,18 +94,14 @@ public class Interpreter {
                                     dragon = CreatorOfDragons.create(scanner);}
                                 if (dragon != null && dragon.isValid()) {
                                     Command add = new Add(dragonVectorStorage, dragon);
-                                    add.execute();
+                                    result+=add.execute();
                                 }
-                            } else System.out.println("Превышено количество элементов коллекции.");
+                            }
                             break;
                         default:
-                            System.out.println(
-                                    "Команда <"+data+"> не существует или введена неверно. " +
-                                    "Для получения справки введите help"
-                            );
                             break;
                     }
-                } else if (commandParts.length == 2){
+                } else if (commandParts.length == 2) {
                     switch (command) {
                         case "update":
                             if (dragonVectorStorage.getIdCounter() > Integer.parseInt(commandParts[1])) {
@@ -122,11 +116,9 @@ public class Interpreter {
                                             dragon,
                                             Integer.parseInt(commandParts[1])
                                     );
-                                    update.execute();
+                                    result += update.execute();
                                 }
-                            } else
-                                System.out.println("Номер элемента не может быть больше количества элементов" +
-                                        " коллекции = " + dragonVectorStorage.getIdCounter());
+                            }
                             break;
                         case "insert_at":
                             if (dragonVectorStorage.getIdCounter() > Integer.parseInt(commandParts[1])) {
@@ -137,47 +129,35 @@ public class Interpreter {
                                 }
                                 if (dragon != null && dragon.isValid()) {
                                     Command insertAt = new InsertAt(dragonVectorStorage, dragon, Integer.parseInt(commandParts[1]));
-                                    insertAt.execute();
+                                    result += insertAt.execute();
                                 }
-                            } else
-                                System.out.println(
-                                        "Коллекция меньше, чем введённый номер элемента. " +
-                                                "Размер коллекции: " + dragonVectorStorage.getIdCounter()
-                                );
+                            }
                             break;
                         case "count_by_color":
-                            System.out.println("Доступные цвета - GREEN, BLUE, BLACK, ORANGE, WHITE");
                             if (Checker.checkColor(commandParts[1])) {
                                 Color color = Color.valueOf(commandParts[1]);
-                                Command countByColor = new CountByColor(dragonVectorStorage, color);
-                                countByColor.execute();
-                            } else System.out.println("Команда введена неверно. Для получения справки введите help");
+                                //Command countByColor = new CountByColor(dragonVectorStorage, color);
+                                //result+=countByColor.execute();
+                            }
                             break;
                         case "execute_script":
                             File scriptFile = new File(commandParts[1]);
                             if (scriptFile.exists()) {
-                                if (!scriptFile.canRead()){
-                                    System.out.println("Отсутствуют права на чтение!");
-                                } else if (!scriptFile.canWrite()) {
-                                    System.out.println("Отсутствуют права на запись!");
-                                }
                                 if (!scriptArray.contains(commandParts[1])) {
                                     scriptArray.add(commandParts[1]);
                                     Command executeScript = new ExecuteScript(dragonVectorStorage, scriptFile);
-                                    executeScript.execute();
+                                    result += executeScript.execute();
                                     scriptArray.remove(commandParts[1]);
-                                } else System.out.println("Данный скрипт уже использован.");
-                            } else
-                                System.out.println(
-                                        "Не удалось получить данные из файла. Проверьте корректность данных."
-                                );
+                                }
+                                result += "Данный скрипт уже использован.";
+                            }
                             break;
                         case "filter_starts_with_name":
-                                Command filterStartsWithName = new FilterStartsWithName(
-                                        dragonVectorStorage,
-                                        commandParts[1]
-                                );
-                                filterStartsWithName.execute();
+                            Command filterStartsWithName = new FilterStartsWithName(
+                                    dragonVectorStorage,
+                                    commandParts[1]
+                            );
+                            result += filterStartsWithName.execute();
                             break;
                         case "remove_by_id":
                             if (Checker.checkIntUpZero(commandParts[1])) {
@@ -185,43 +165,34 @@ public class Interpreter {
                                         dragonVectorStorage,
                                         Integer.parseInt(commandParts[1])
                                 );
-                                removeById.execute();
-                            } else System.out.println("Команда введена неверно. Для получения справки введите help");
+                                result += removeById.execute();
+                            }
                             break;
                         case "remove_lower":
-                                if (Checker.checkIntUpZero(commandParts[1]) &&
-                                        (Integer.parseInt(commandParts[1]) < dragonVectorStorage.getIdCounter())) {
-                                    Command removeLower = new RemoveLower(
-                                            dragonVectorStorage,
-                                            dragonVectorStorage.getDragonVector().get(
-                                                    Integer.parseInt(commandParts[1]) - 1
-                                            )
-                                    );
-                                    removeLower.execute();
-                                } else
-                                    System.out.println(
-                                            "Элемента с таким id не существует. " +
-                                            "Введите show для просмотра существующих элементов"
-                                    );
+                            if (Checker.checkIntUpZero(commandParts[1]) &&
+                                    (Integer.parseInt(commandParts[1]) < dragonVectorStorage.getIdCounter())) {
+                                Command removeLower = new RemoveLower(
+                                        dragonVectorStorage,
+                                        dragonVectorStorage.getDragonVector().get(
+                                                Integer.parseInt(commandParts[1]) - 1
+                                        )
+                                );
+                                result += removeLower.execute();
+                            } else
+                                result += "Элемента с таким id не существует. " +
+                                        "Введите show для просмотра существующих элементов";
                             break;
                         default:
-                            System.out.println(
-                                    "Команда <"+data+"> не существует или введена неверно. " +
-                                            "Для получения справки введите help"
-                            );
                             break;
                     }
-                }else{
-                    System.out.println("Введено слишком много аргументов.");
                 }
+                return result;
             }
         }
     }
     public static void findEndOfFile(Scanner scanner){
         if (!scanner.hasNextLine())
         {
-            System.out.println();
-            System.out.println("Обнаружен конец ввода. Выход из программы.");
             System.exit(20);
         }
     }

@@ -26,7 +26,6 @@ public class RemoveById extends Command {
     @Override
     public String execute() {
         storage.removeById(id);
-        System.out.println("Элемент с id "+id+" удалён из коллекции");
-        return null;
+        return ("Элемент с id "+id+" удалён из коллекции");
     }
 }

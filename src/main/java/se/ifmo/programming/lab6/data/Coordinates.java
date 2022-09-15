@@ -8,6 +8,9 @@ public class Coordinates implements Valid {
     private Long x; //Поле не может быть null
     private Double y; //Поле не может быть null
 
+    public Coordinates() {
+    }
+
     public Coordinates(Long x, Double y) {
         this.x = x;
         this.y = y;

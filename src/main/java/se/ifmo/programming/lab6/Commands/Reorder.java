@@ -22,8 +22,7 @@ public class Reorder extends Command {
 
     @Override
     public String execute(){
-        System.out.println("Коллекция отсортирована в обратном порядке");
         storage.reorder();
-        return null;
+        return "Коллекция отсортирована в обратном порядке";
     }
 }

@@ -1,15 +1,15 @@
 package se.ifmo.programming.lab6.utils;
 
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+
 import se.ifmo.programming.lab6.data.Dragon;
 import se.ifmo.programming.lab6.exceptions.ElementNotValidException;
 import se.ifmo.programming.lab6.storage.DragonVectorStorage;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
+
+import java.io.*;
 import java.util.Scanner;
 
 /**
@@ -27,37 +27,35 @@ public class FileWorker implements FileInterface {
         Scanner sc;
         Dragon dragon;
         String data = "";
-            try {
-                sc = new Scanner(file);
-                while (sc.hasNextLine()) {
-                    data = sc.nextLine();
-                    try {
-                        dragon = XmlMapperFactory.getInstance().readValue(data, Dragon.class);
-                        if (dragon.getName().split("\\s+").length == 1){;
-                            dragonVectorStorage.add(dragon);
-                        }
-                    } catch (JsonProcessingException e) {
+        try {
+            sc = new Scanner(file);
+            while (sc.hasNextLine()) {
+                data = sc.nextLine();
+                try {
+                    dragon = XmlMapperFactory.getInstance().readValue(data, Dragon.class);
+                    if (dragon.getName().split("\\s+").length == 1){
+                        dragonVectorStorage.add(dragon);
                     }
+                } catch (IOException e) {
                 }
-                sc.close();
-            } catch (FileNotFoundException ex) {
-                System.out.println("Файл не найден.");
             }
+            sc.close();
+        } catch (FileNotFoundException ex) {}
         return dragonVectorStorage;
     }
 
     @Override
     public void writeFile(DragonVectorStorage dragonVectorStorage, File file) {
-    String xmlDragon;
-    this.file = file;
-    final XmlMapper xmlMapper = XmlMapperFactory.getInstance();
+        String xmlDragon;
+        this.file = file;
+        final XmlMapper xmlMapper = XmlMapperFactory.getInstance();
         try {
             FileWriter writer = new FileWriter(file, false);
             for(Dragon dragon: dragonVectorStorage.getDragonVector())
-                {
-                    xmlDragon = xmlMapper.writeValueAsString(dragon);
-                    writer.write(xmlDragon + "\n");
-                };
+            {
+                xmlDragon = xmlMapper.writeValueAsString(dragon);
+                writer.write(xmlDragon + "\n");
+            };
             writer.close();
         } catch (IOException ex){
             ex.printStackTrace();

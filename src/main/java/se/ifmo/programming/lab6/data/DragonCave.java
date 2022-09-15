@@ -14,6 +14,9 @@ public class DragonCave implements Valid, Comparable<DragonCave> {
         this.numberOfTreasures = numberOfTreasures;
     }
 
+    public DragonCave() {
+    }
+
     /**
      * Устанавливает значение глубины depth
      */
@@ -45,7 +48,7 @@ public class DragonCave implements Valid, Comparable<DragonCave> {
 
     @Override
     public String toString() {
-        return "depth=" + depth + ", numberOfTreasures=" + numberOfTreasures;
+        return "depth=" + depth + ", numberOfTreasures=" + numberOfTreasures + " \n";
     }
 
     @Override

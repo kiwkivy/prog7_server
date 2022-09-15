@@ -9,8 +9,8 @@ import se.ifmo.programming.lab6.storage.Storage;
 
 public class InsertAt<E> extends Command {
     private int index;
-    public static String description = "добавить новый элемент в заданную позицию";
-    public static String syntax = "insert_at index {element}";
+    public static transient String description = "добавить новый элемент в заданную позицию";
+    public static transient String syntax = "insert_at index {element}";
     public CommandType commandType = CommandType.INSERT_AT;
 
     public InsertAt(Storage storage, E element, int index) {
@@ -27,7 +27,7 @@ public class InsertAt<E> extends Command {
     public String execute(){
         try {
             storage.insertAt(index, element);
-            System.out.println("Эленент добавлин в позицию "+index);
+            return ("Эленент добавлин в позицию "+index);
         }catch (ElementNotValidException e){
         }
         return null;

@@ -1,5 +1,6 @@
 package se.ifmo.programming.lab6.Commands;
 
+import se.ifmo.programming.lab6.Server;
 import se.ifmo.programming.lab6.storage.DragonVectorStorage;
 import se.ifmo.programming.lab6.utils.Interpreter;
 
@@ -10,8 +11,9 @@ import java.io.File;
  * В скрипте содержатся команды в таком же виде, в котором их вводит пользователь в интерактивном режиме.
  */
 public class ExecuteScript extends Command {
-    private DragonVectorStorage dragonVectorStorage;
-    private File scriptFile;
+    private transient DragonVectorStorage dragonVectorStorage;
+    private transient File scriptFile;
+    public String fileName;
     public CommandType commandType = CommandType.EXECUTE_SCRIPT;
 
     public static String description = "считать и исполнить скрипт из указанного файла." +
@@ -33,10 +35,12 @@ public class ExecuteScript extends Command {
 
     @Override
     public String execute() {
-        System.out.println("Выполнение скрипта " + scriptFile);
+        String result;
+        File scriptFile = new File(fileName);
+        result = ("Выполнение скрипта " + scriptFile);
         Interpreter interpreter = new Interpreter(dragonVectorStorage, scriptFile);
-        interpreter.start();
-        System.out.println("Скрипт " + scriptFile + " завершён.");
+        interpreter.start(result);
         return null;
     }
+
 }

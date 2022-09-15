@@ -1,5 +1,6 @@
 package se.ifmo.programming.lab6.Commands;
 
+import se.ifmo.programming.lab6.Server;
 import se.ifmo.programming.lab6.storage.DragonVectorStorage;
 import se.ifmo.programming.lab6.utils.FileWorker;
 
@@ -10,12 +11,12 @@ import java.io.File;
  */
 
 public class Save extends Command{
-    private FileWorker worker;
-    private File file;
-    private DragonVectorStorage dragonVectorStorage;
+    private transient FileWorker worker;
+    private transient File file;
+    private transient DragonVectorStorage dragonVectorStorage;
     public static String description = "сохранить коллекцию в файл";
     public static String syntax = "save";
-    public CommandType commandType = CommandType.SAVE;
+    public CommandType commandType = CommandType.EXIT;
 
     public Save(DragonVectorStorage dragonVectorStorage, FileWorker worker, File file) {
         this.dragonVectorStorage = dragonVectorStorage;
@@ -24,14 +25,17 @@ public class Save extends Command{
     }
 
     public Save() {
+        this.dragonVectorStorage = Server.dragonVectorStorage;
+        this.worker = new FileWorker();
+        this.file = new File(System.getenv("FILENAME"));
+
     }
 
     public CommandType getCommandList() {return commandType;}
 
     @Override
     public String execute() {
-        System.out.println("Коллекция сохранена в файл");
         dragonVectorStorage.save(dragonVectorStorage, file, worker);
-        return null;
+        return "";
     }
 }

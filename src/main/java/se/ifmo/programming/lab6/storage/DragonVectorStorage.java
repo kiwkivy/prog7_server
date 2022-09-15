@@ -1,5 +1,6 @@
 package se.ifmo.programming.lab6.storage;
 
+import se.ifmo.programming.lab6.Server;
 import se.ifmo.programming.lab6.data.Color;
 import se.ifmo.programming.lab6.data.Dragon;
 import se.ifmo.programming.lab6.data.DragonCave;
@@ -62,8 +63,6 @@ public class DragonVectorStorage implements DragonStorage<Vector<Dragon>> {
         boolean result = dragonVector.removeIf(dragon -> dragon.getId() == id);
         if (id > 0 && id <= idCounter) {
             generateId();
-        }else{
-            System.out.println("Элемента с id " + id + " не сущетсвует");
         }
     }
 
@@ -88,29 +87,33 @@ public class DragonVectorStorage implements DragonStorage<Vector<Dragon>> {
     }
 
     @Override
-    public void countByColor(final Color color) {
-        System.out.println("Количество элементов цвета " + color + ": " + dragonVector.stream()
+    public String countByColor(final Color color) {
+        return "Количество элементов цвета " + color + ": " + dragonVector.stream()
                 .filter(dragon -> Objects.equals(dragon.getColor(), color))
-                .count());
+                .count();
     }
 
     @Override
-    public void filterStartsWithName(final String name) {
+    public String filterStartsWithName(final String name) {
         Vector<Dragon> newVector = dragonVector.stream().filter(dragon -> dragon.getName() != null)
                 .filter(dragon -> dragon.getName().startsWith(name))
                 .collect(Collectors.toCollection(Vector::new));
-        for (Dragon dragon : newVector){
-            System.out.println(dragon.toString());
-        }
+       return newVector.toString();
 
     }
-
     @Override
-    public Collection<DragonCave> getAllDescendingCave() {
-        return (dragonVector.stream()
-                .map(Dragon::getCave)
-                .sorted(Comparator.reverseOrder())
-                .collect(Collectors.toCollection(Vector::new)));
+    public String getStringCollection() {
+        return (dragonVector.stream().toString());
+    }
+
+    public String getAllDescendingCave() {
+        return (String) dragonVector.stream().map(s -> s.getCave()).sorted(Comparator.reverseOrder()).map(s -> s.toString()).reduce((s1, s2) -> s1 + s2).orElse("Коллекция пуста");
+                //(dragonVector.stream()
+                //.map(Dragon::getCave)
+                //.sorted(Comparator.reverseOrder())
+                //.collect(Collectors.toCollection(Vector::new)));
+
+
     }
 
     public <T> T test(T element){
@@ -132,20 +135,18 @@ public class DragonVectorStorage implements DragonStorage<Vector<Dragon>> {
     }
 
     @Override
-    public void info() {
-        System.out.println("Тип: DragonVectorStorage");
-        System.out.println("Дата инизиализации: " + getCreationDate());
-        System.out.println("Количество элементов: " + dragonVector.size());
-        System.out.println("Место хранение: test.txt");
+    public String info() {
+        String result="";
+        result+=("Тип: DragonVectorStorage");
+        result+=("Дата инизиализации: " + getCreationDate());
+        result+=("Количество элементов: " + dragonVector.size());
+        result+=("Место хранение: test.txt");
+        return result;
     }
 
     @Override
-    public void show(){
-        if (dragonVector.size() > 0) {
-            for (Dragon dragon : dragonVector) {
-                System.out.println(dragon.toString());
-            }
-        }else System.out.println("Коллекция пуста.");
+    public String show(){
+        return dragonVector.stream().map(s->s.toString()).reduce((s1, s2) -> s1 + s2).orElse("Коллекция пуста");
     }
 
     /**
@@ -156,7 +157,8 @@ public class DragonVectorStorage implements DragonStorage<Vector<Dragon>> {
     }
 
     @Override
-    public void removeLower(Dragon lowerDragon) {
+    public void removeLower(int id) {
+        Dragon lowerDragon = Server.dragonVectorStorage.getDragonVector().get(id);
         dragonVector.removeIf(dragon -> dragon.getAge() < lowerDragon.getAge());
         generateId();
     }

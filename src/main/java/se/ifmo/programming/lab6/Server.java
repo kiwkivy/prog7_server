@@ -11,18 +11,28 @@ import se.ifmo.programming.lab6.deserializers.CaveDeserializer;
 import se.ifmo.programming.lab6.deserializers.CoordinatesDeserializer;
 import se.ifmo.programming.lab6.deserializers.DragonDeserializer;
 import se.ifmo.programming.lab6.storage.DragonVectorStorage;
+import se.ifmo.programming.lab6.utils.FileWorker;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Server {
     public static ArrayList<Command> listOfCommands = new ArrayList<>();
     public static DragonVectorStorage dragonVectorStorage;
+    public static List<String> scriptArray = new ArrayList<>();
 
     public static void main(String[] args){
+        String fileName = System.getenv("FILENAME");
+        File file = new File(fileName);
+        dragonVectorStorage = new DragonVectorStorage(file);
+        FileWorker worker = new FileWorker();
+        dragonVectorStorage = worker.readFile(dragonVectorStorage, dragonVectorStorage.getFile());
+
         getListOfCommands();
         while(true) {
             receiveMessage();
@@ -36,27 +46,25 @@ public class Server {
         try {
             byte[] data = message.getBytes();
             InetAddress inetAddress = InetAddress.getByName("localhost");
-            DatagramPacket packet = new DatagramPacket(data, data.length, inetAddress, 4357);
+            DatagramPacket packet = new DatagramPacket(data, data.length, inetAddress, 2222);
             DatagramSocket socket = new DatagramSocket();
             socket.send(packet);
             socket.close();
         }catch (IOException ex){
-            System.out.println("Эксепшн"); //TODO эксепшн
         }
     }
 
     public static void receiveMessage(){
         DatagramSocket socket = null;
         try {
-            socket = new DatagramSocket(1683);
+            socket = new DatagramSocket(1111);
             byte[] bytes = new byte[8192];
             DatagramPacket packet = new DatagramPacket(bytes, bytes.length);
             socket.receive(packet);
             String message = new String(packet.getData(), 0, packet.getLength());
-            System.out.println("Сообщение: " + message);
             Command command = deserializer(message);
-            sendMessage(new Gson().toJson(command.execute()));
-            System.out.println("Команда: " + command);
+            Gson gson = new GsonBuilder().disableHtmlEscaping().create();
+            sendMessage(gson.toJson(command.execute()));
         } catch (IOException ex){
             ex.printStackTrace();
         }
@@ -75,13 +83,13 @@ public class Server {
 
         for (Command command: listOfCommands){
             try {
-                result = gson.fromJson(message, command.getClass());
+                    result = gson.fromJson(message, command.getClass());
                 if (result.getCommandList().equals(command.getCommandList())) {
                     return result;
                 }
             } catch (JsonIOException ex){
+                }
             }
-        }
         return null;
     }
 
@@ -99,6 +107,8 @@ public class Server {
         listOfCommands.add(new Save());
         listOfCommands.add(new Show());
         listOfCommands.add(new Update());
+        listOfCommands.add(new CountByColor());
+        listOfCommands.add(new Info());
     }
 }
 

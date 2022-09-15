@@ -16,12 +16,7 @@ public interface DragonStorage<T extends Collection<Dragon>> extends Storage<T, 
     /**
      * Релизация команды count_by_color.
      */
-    void countByColor(final Color color);
-
-    /**
-     * @return Collection<DragonCave>.
-     */
-    Collection<DragonCave> getAllDescendingCave();
+    String countByColor(final Color color);
 
     /**
      * Релизация команды save.
