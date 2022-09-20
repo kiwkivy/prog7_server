@@ -61,7 +61,7 @@ public class Server {
     public static void receiveMessage(){
         DatagramSocket socket = null;
         try {
-            socket = new DatagramSocket(3333);
+            socket = new DatagramSocket(3321);
             byte[] bytes = new byte[8192];
             DatagramPacket packet = new DatagramPacket(bytes, bytes.length);
             socket.receive(packet);
@@ -83,7 +83,7 @@ public class Server {
                 .registerTypeAdapter(DragonCave.class, new CaveDeserializer())
                 .registerTypeAdapter(Coordinates.class, new CoordinatesDeserializer())
                 .create();
-        Command result = null;
+        Command result;
 
         for (Command command: listOfCommands){
             try {
