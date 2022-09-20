@@ -3,6 +3,7 @@ package se.ifmo.programming.lab6.storage;
 import se.ifmo.programming.lab6.Server;
 import se.ifmo.programming.lab6.data.Color;
 import se.ifmo.programming.lab6.data.Dragon;
+import se.ifmo.programming.lab6.data.DragonCave;
 import se.ifmo.programming.lab6.exceptions.ElementNotValidException;
 import se.ifmo.programming.lab6.utils.FileWorker;
 
@@ -106,7 +107,7 @@ public class DragonVectorStorage implements DragonStorage<Vector<Dragon>> {
     }
 
     public String getAllDescendingCave() {
-        return (String) dragonVector.stream().map(s -> s.getCave()).sorted(Comparator.reverseOrder()).map(s -> s.toString()).reduce((s1, s2) -> s1 + s2).orElse("Коллекция пуста");
+        return (String) dragonVector.stream().map(s -> s.getCave()).sorted(Comparator.reverseOrder()).map(DragonCave::toString).reduce((s1, s2) -> s1 + s2).orElse("Коллекция пуста");
                 //(dragonVector.stream()
                 //.map(Dragon::getCave)
                 //.sorted(Comparator.reverseOrder())

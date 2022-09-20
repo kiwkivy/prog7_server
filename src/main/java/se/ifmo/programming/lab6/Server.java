@@ -61,7 +61,7 @@ public class Server {
     public static void receiveMessage(){
         DatagramSocket socket = null;
         try {
-            socket = new DatagramSocket(1111);
+            socket = new DatagramSocket(3333);
             byte[] bytes = new byte[8192];
             DatagramPacket packet = new DatagramPacket(bytes, bytes.length);
             socket.receive(packet);

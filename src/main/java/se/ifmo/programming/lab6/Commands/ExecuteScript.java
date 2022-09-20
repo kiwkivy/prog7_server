@@ -40,30 +40,30 @@ public class ExecuteScript extends Command {
         scriptFile = new File(fileName);
         if (scriptFile.exists()) {
             if (!scriptFile.canRead()){
-                return "Отсутствуют права на чтение!";
+                Server.sendMessage("Отсутствуют права на чтение!", getPort());
             } else if (!scriptFile.canWrite()) {
-                return "Отсутствуют права на запись!";
+                Server.sendMessage("Отсутствуют права на запись!", getPort());
             }
             if (!Server.scriptArray.contains(fileName)) {
                 Server.scriptArray.add(fileName);
                 Command executeScript = new ExecuteScript(dragonVectorStorage, scriptFile);
                 Server.scriptArray.remove(fileName);
-            } else return "Данный скрипт уже использован.";
+            } else Server.sendMessage("Данный скрипт уже использован.", getPort());
         } else
-            return "Не удалось получить данные из файла. Проверьте корректность данных.";
+            Server.sendMessage("Не удалось получить данные из файла. Проверьте корректность данных.", getPort());
         //Server.normalWork = false;
-        Scanner scanner;
+        Scanner scanner = null;
         File scriptFile = new File(fileName);
         try {
             scanner = new Scanner(scriptFile);
         }catch (FileNotFoundException ex){
-            return "Ошибка доступа к файлу.";
+            Server.sendMessage("Ошибка доступа к файлу.", getPort());
         }
         Server.sendMessage("Выполнение скрипта " + scriptFile, getPort());
         Interpreter interpreter = new Interpreter(Server.dragonVectorStorage, scriptFile);
         interpreter.start(scanner, getPort());
         //Server.normalWork = true;
-        return "Скрипт выполнен.";
+        return "Возврат в обычный режим.";
     }
 
     @Override
