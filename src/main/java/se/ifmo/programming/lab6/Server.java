@@ -45,11 +45,11 @@ public class Server {
 
 
 
-    public static void sendMessage(String message){
+    public static void sendMessage(String message, int port){
         try {
             byte[] data = message.getBytes();
             InetAddress inetAddress = InetAddress.getByName("localhost");
-            DatagramPacket packet = new DatagramPacket(data, data.length, inetAddress, 2222);
+            DatagramPacket packet = new DatagramPacket(data, data.length, inetAddress, port);
             DatagramSocket socket = new DatagramSocket();
             socket.send(packet);
             socket.close();
@@ -68,7 +68,7 @@ public class Server {
             String message = new String(packet.getData(), 0, packet.getLength());
             Command command = deserializer(message);
             Gson gson = new GsonBuilder().disableHtmlEscaping().create();
-            sendMessage(gson.toJson(command.execute()));
+            sendMessage(gson.toJson(command.execute()), command.getPort());
         } catch (IOException ex){
             ex.printStackTrace();
         }

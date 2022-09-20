@@ -59,9 +59,9 @@ public class ExecuteScript extends Command {
         }catch (FileNotFoundException ex){
             return "Ошибка доступа к файлу.";
         }
-        Server.sendMessage("Выполнение скрипта " + scriptFile);
+        Server.sendMessage("Выполнение скрипта " + scriptFile, getPort());
         Interpreter interpreter = new Interpreter(Server.dragonVectorStorage, scriptFile);
-        interpreter.start(scanner);
+        interpreter.start(scanner, getPort());
         //Server.normalWork = true;
         return "Скрипт выполнен.";
     }

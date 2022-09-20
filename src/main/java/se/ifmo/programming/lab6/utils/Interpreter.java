@@ -26,7 +26,7 @@ public class Interpreter {
      * Метод, реализующий работу интерпретатора. Интерпретатор работает в двух режимах: консольном и скриптовом.
      */
 
-    public String start(Scanner scanner) {
+    public String start(Scanner scanner, int port) {
         FileWorker worker = new FileWorker();
         String data = "";
         Dragon dragon;
@@ -159,7 +159,7 @@ public class Interpreter {
                     }
                 }
             }
-            Server.sendMessage(resultOfCommand);
+            Server.sendMessage(resultOfCommand, port);
         }
     }
 }

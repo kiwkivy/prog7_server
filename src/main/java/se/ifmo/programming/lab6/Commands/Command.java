@@ -14,6 +14,11 @@ public abstract class Command<T extends Collection<E>, E> {
     protected transient E element;
     private transient String description;
     private transient String syntax;
+    private int port;
+
+    public int getPort() {
+        return port;
+    }
 
     public String getDescription() {
         return description;
