@@ -1,7 +1,6 @@
 package se.ifmo.programming.lab6.Commands;
 
 import se.ifmo.programming.lab6.Server;
-import se.ifmo.programming.lab6.data.Dragon;
 import se.ifmo.programming.lab6.storage.Storage;
 
 import java.util.Collection;
@@ -11,10 +10,10 @@ import java.util.Collection;
  */
 
 public abstract class Command<T extends Collection<E>, E> {
-    protected Storage<?, E> storage;
-    protected E element;
-    private String description;
-    private String syntax;
+    protected transient Storage<?, E> storage;
+    protected transient E element;
+    private transient String description;
+    private transient String syntax;
 
     public String getDescription() {
         return description;

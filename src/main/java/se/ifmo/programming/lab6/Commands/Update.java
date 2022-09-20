@@ -10,9 +10,9 @@ import se.ifmo.programming.lab6.storage.Storage;
 
 public class Update<E> extends Command {
     private int id;
-    public static String description = "обновить значение элемента коллекции, id которого равен заданному";
-    public static String syntax = "update id {element}";
-    public CommandType commandType = CommandType.UPDATE;
+    private String description = "обновить значение элемента коллекции, id которого равен заданному";
+    private String syntax = "update id {element}";
+    private CommandType commandType = CommandType.UPDATE;
     private Dragon dragon;
 
     public Update() {
@@ -35,5 +35,15 @@ public class Update<E> extends Command {
         }catch (ElementNotValidException e){
         }
         return null;
+    }
+
+    @Override
+    public String getDescription() {
+        return description;
+    }
+
+    @Override
+    public String getSyntax() {
+        return syntax;
     }
 }

@@ -14,9 +14,9 @@ public class Save extends Command{
     private transient FileWorker worker;
     private transient File file;
     private transient DragonVectorStorage dragonVectorStorage;
-    public static String description = "сохранить коллекцию в файл";
-    public static String syntax = "save";
-    public CommandType commandType = CommandType.EXIT;
+    private String description = "сохранить коллекцию в файл";
+    private String syntax = "save";
+    private CommandType commandType = CommandType.EXIT;
 
     public Save(DragonVectorStorage dragonVectorStorage, FileWorker worker, File file) {
         this.dragonVectorStorage = dragonVectorStorage;
@@ -37,5 +37,15 @@ public class Save extends Command{
     public String execute() {
         dragonVectorStorage.save(dragonVectorStorage, file, worker);
         return "";
+    }
+
+    @Override
+    public String getDescription() {
+        return description;
+    }
+
+    @Override
+    public String getSyntax() {
+        return syntax;
     }
 }

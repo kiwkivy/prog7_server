@@ -8,9 +8,9 @@ import se.ifmo.programming.lab6.storage.Storage;
  */
 
 public class RemoveLower<E> extends Command{
-    public static String description = "удалить из коллекции все элементы, меньшие, чем заданный";
-    public static String syntax = "remove_lower id";
-    public CommandType commandType = CommandType.REMOVE_LOWER;
+    private String description = "удалить из коллекции все элементы, меньшие, чем заданный";
+    private String syntax = "remove_lower id";
+    private CommandType commandType = CommandType.REMOVE_LOWER;
     private int id;
 
     public RemoveLower(Storage storage, Dragon dragon) {
@@ -26,5 +26,15 @@ public class RemoveLower<E> extends Command{
     public String execute() {
         storage.removeLower(id);
         return "Элементы, меньшее заданного, удалены из коллекции";
+    }
+
+    @Override
+    public String getDescription() {
+        return description;
+    }
+
+    @Override
+    public String getSyntax() {
+        return syntax;
     }
 }

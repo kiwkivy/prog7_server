@@ -3,7 +3,6 @@ package se.ifmo.programming.lab6.storage;
 import se.ifmo.programming.lab6.Server;
 import se.ifmo.programming.lab6.data.Color;
 import se.ifmo.programming.lab6.data.Dragon;
-import se.ifmo.programming.lab6.data.DragonCave;
 import se.ifmo.programming.lab6.exceptions.ElementNotValidException;
 import se.ifmo.programming.lab6.utils.FileWorker;
 
@@ -137,10 +136,10 @@ public class DragonVectorStorage implements DragonStorage<Vector<Dragon>> {
     @Override
     public String info() {
         String result="";
-        result+=("Тип: DragonVectorStorage");
-        result+=("Дата инизиализации: " + getCreationDate());
-        result+=("Количество элементов: " + dragonVector.size());
-        result+=("Место хранение: test.txt");
+        result+=("Тип: DragonVectorStorage" + "\n");
+        result+=("Дата инизиализации: " + getCreationDate() + "\n");
+        result+=("Количество элементов: " + dragonVector.size() + "\n");
+        result+=("Место хранение: test.txt" + "\n");
         return result;
     }
 

@@ -8,9 +8,9 @@ import se.ifmo.programming.lab6.storage.Storage;
 
 public class RemoveById extends Command {
     int id;
-    public static String description = "удалить элемент из коллекции по его id";
-    public static String syntax = "remove_by_id id";
-    public CommandType commandType = CommandType.REMOVE_BY_ID;
+    private String description = "удалить элемент из коллекции по его id";
+    private String syntax = "remove_by_id id";
+    private CommandType commandType = CommandType.REMOVE_BY_ID;
 
 
     public RemoveById(Storage storage, int id) {
@@ -27,5 +27,15 @@ public class RemoveById extends Command {
     public String execute() {
         storage.removeById(id);
         return ("Элемент с id "+id+" удалён из коллекции");
+    }
+
+    @Override
+    public String getDescription() {
+        return description;
+    }
+
+    @Override
+    public String getSyntax() {
+        return syntax;
     }
 }

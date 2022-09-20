@@ -8,10 +8,10 @@ import se.ifmo.programming.lab6.storage.Storage;
  */
 
 public class Info extends Command{
-    public static transient String description = "вывести в стандартный поток вывода информацию о коллекции " +
+    private String description = "вывести в стандартный поток вывода информацию о коллекции " +
             "(тип, дата инициализации, количество элементов и т.д.)";
-    public static transient String syntax = "info";
-    public CommandType commandType = CommandType.INFO;
+    private String syntax = "info";
+    private CommandType commandType = CommandType.INFO;
 
     public Info(Storage storage) {
         super(storage);
@@ -24,5 +24,15 @@ public class Info extends Command{
 
     public String execute(){
         return storage.info();
+    }
+
+    @Override
+    public String getDescription() {
+        return description;
+    }
+
+    @Override
+    public String getSyntax() {
+        return syntax;
     }
 }

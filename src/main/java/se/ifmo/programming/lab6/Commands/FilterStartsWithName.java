@@ -8,8 +8,8 @@ import se.ifmo.programming.lab6.storage.Storage;
 
 public class FilterStartsWithName extends Command {
     private String name;
-    public static transient String description = "вывести элементы, значение поля name которых начинается с заданной подстроки";
-    public static transient String syntax = "filter_starts_with_name name";
+    private String description = "вывести элементы, значение поля name которых начинается с заданной подстроки";
+    private String syntax = "filter_starts_with_name name";
     public CommandType commandType = CommandType.FILTER_STARTS_WITH_NAME;
 
     public FilterStartsWithName(Storage storage, String name) {
@@ -26,5 +26,15 @@ public class FilterStartsWithName extends Command {
     @Override
     public String execute() {
         return (("Элементы коллекции, начинающиеся с <" + name + ">:" + storage.filterStartsWithName(name)));
+    }
+
+    @Override
+    public String getDescription() {
+        return description;
+    }
+
+    @Override
+    public String getSyntax() {
+        return syntax;
     }
 }

@@ -1,6 +1,5 @@
 package se.ifmo.programming.lab6.Commands;
 
-import se.ifmo.programming.lab6.Server;
 import se.ifmo.programming.lab6.storage.Storage;
 
 /**
@@ -8,8 +7,18 @@ import se.ifmo.programming.lab6.storage.Storage;
  */
 
 public class Clear extends Command {
-    public static transient String description = "очистить коллекцию";
-    public static transient String syntax = "clear";
+    @Override
+    public String getDescription() {
+        return description;
+    }
+
+    @Override
+    public String getSyntax() {
+        return syntax;
+    }
+
+    private String description = "очистить коллекцию";
+    private String syntax = "clear";
     public CommandType commandType = CommandType.CLEAR;
 
     public Clear(Storage storage) {

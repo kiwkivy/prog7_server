@@ -52,7 +52,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>se.ifmo.programming.prog6_server.Main</mainClass>
+                            <mainClass>se.ifmo.programming.lab6.Server</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

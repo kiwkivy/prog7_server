@@ -1,12 +1,14 @@
 package se.ifmo.programming.lab6.Commands;
 
+import se.ifmo.programming.lab6.Server;
+
 /**
  * Комманда help : вывести справку по доступным командам.
  */
 
 public class Help extends Command{
-    public static transient String description = "вывести справку по доступным командам";
-    public static transient String syntax = "help";
+    private transient String description = "вывести справку по доступным командам";
+    private transient String syntax = "help";
     public CommandType commandType = CommandType.HELP;
 
     public Help() {
@@ -15,23 +17,16 @@ public class Help extends Command{
 
     @Override
     public String execute() {
-        String result = "Вывод справки:";
-        result+=("- " + Add.syntax + ": " + Add.description + "\n");
-        result+=("- " + Clear.syntax + ": " + Clear.description + "\n");
-        result+=("- " + CountByColor.syntax + ": " + CountByColor.description + "\n");
-        result+=("- " + ExecuteScript.syntax + ": " + ExecuteScript.description + "\n");
-        result+=("- " + FilterStartsWithName.syntax + ": " + FilterStartsWithName.description + "\n");
-        result+=("- " + Help.syntax + ": " + Help.description + "\n");
-        result+=("- " + Info.syntax + ": " + Info.description + "\n");
-        result+=("- " + InsertAt.syntax + ": " + InsertAt.description + "\n");
-        result+=("- " + PrintFieldDescendingCave.syntax + ": " + PrintFieldDescendingCave.description + "\n");
-        result+=("- " + RemoveById.syntax + ": " + RemoveById.description + "\n");
-        result+=("- " + RemoveLower.syntax + ": " + RemoveLower.description + "\n");
-        result+=("- " + Reorder.syntax + ": " + Reorder.description + "\n");
-        result+=("- " + Save.syntax + ": " + Save.description + "\n");
-        result+=("- " + Show.syntax + ": " + Show.description + "\n");
-        result+=("- " + Update.syntax + ": " + Update.description);
+        return Server.listOfCommands.stream().map(s -> "- " + s.getSyntax() + ": " + s.getDescription() + "\n").reduce((s1, s2) -> s1 + s2).get();
+    }
 
-        return result;
+    @Override
+    public String getDescription() {
+        return description;
+    }
+
+    @Override
+    public String getSyntax() {
+        return syntax;
     }
 }

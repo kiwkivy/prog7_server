@@ -1,8 +1,7 @@
 package se.ifmo.programming.lab6;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonIOException;
+import com.google.gson.*;
+import com.google.gson.internal.bind.util.ISO8601Utils;
 import se.ifmo.programming.lab6.Commands.*;
 import se.ifmo.programming.lab6.data.Coordinates;
 import se.ifmo.programming.lab6.data.Dragon;
@@ -20,11 +19,13 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 public class Server {
     public static ArrayList<Command> listOfCommands = new ArrayList<>();
     public static DragonVectorStorage dragonVectorStorage;
     public static List<String> scriptArray = new ArrayList<>();
+    public static boolean normalWork = true;
 
     public static void main(String[] args){
         String fileName = System.getenv("FILENAME");
@@ -35,7 +36,9 @@ public class Server {
 
         getListOfCommands();
         while(true) {
-            receiveMessage();
+            if (normalWork) {
+                receiveMessage();
+            }
         }
     }
 
@@ -51,6 +54,7 @@ public class Server {
             socket.send(packet);
             socket.close();
         }catch (IOException ex){
+            System.out.println(1);
         }
     }
 

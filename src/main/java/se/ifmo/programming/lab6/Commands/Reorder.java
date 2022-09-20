@@ -7,9 +7,9 @@ import se.ifmo.programming.lab6.storage.Storage;
  */
 
 public class Reorder extends Command {
-    public static String description = "отсортировать коллекцию в порядке, обратном нынешнему";
-    public static String syntax = "reorder";
-    public CommandType commandType = CommandType.REORDER;
+    private String description = "отсортировать коллекцию в порядке, обратном нынешнему";
+    private String syntax = "reorder";
+    private CommandType commandType = CommandType.REORDER;
 
     public Reorder(Storage storage) {
         super(storage);
@@ -24,5 +24,15 @@ public class Reorder extends Command {
     public String execute(){
         storage.reorder();
         return "Коллекция отсортирована в обратном порядке";
+    }
+
+    @Override
+    public String getDescription() {
+        return description;
+    }
+
+    @Override
+    public String getSyntax() {
+        return syntax;
     }
 }
